@@ -7,27 +7,19 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './student.css'
-
-function createData(name, age, course, batch, change) {
-  return { name, age, course, batch, change };
-}
-
-const rows = [
-  createData('John', 26, 'MERN', 'October', 'Edit'),
-  createData('Doe', 23, 'MERN', 'November', 'Edit'),
-  createData('Biden', 26, 'MERN', 'September', 'Edit'),
-  createData('Dave', 20, 'MERN', 'September', 'Edit'),
-  createData('Chris', 21, 'MERN', 'October', 'Edit'),
-  createData('James', 22, 'MERN', 'November', 'Edit'),
-  createData('Ryan', 24, 'MERN', 'October', 'Edit'),
-];
+import { ContextData } from './studentData';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
 export default function Students() {
+  
+  const [obj] = useContext(ContextData);
+
   return (
     <div className='conatainer'>
     <div className='heading'>
       <h1>Students Details</h1>
-      <button>Add new student</button>
+      <Link to={'/student-desc'}><button>Add new student</button></Link>
     </div>
     <TableContainer component={Paper} className="table-conatiner">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -37,13 +29,13 @@ export default function Students() {
             <TableCell align="right">Age</TableCell>
             <TableCell align="right">Course</TableCell>
             <TableCell align="right">Batch</TableCell>
-            <TableCell align="right">Cahnge</TableCell>
+            <TableCell align="right">Change</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {obj.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -52,7 +44,13 @@ export default function Students() {
               <TableCell align="right">{row.age}</TableCell>
               <TableCell align="right">{row.course}</TableCell>
               <TableCell align="right">{row.batch}</TableCell>
-              <TableCell align="right">{row.change}</TableCell>
+              <TableCell align="right">
+                { 
+                  <Link to={`/student-desc/${row.id}`} className='edit'>
+                    Edit 
+                  </Link>
+                }
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
